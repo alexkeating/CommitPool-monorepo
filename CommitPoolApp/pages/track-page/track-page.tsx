@@ -13,7 +13,7 @@ import {
   Text,
   Spacer,
   VStack,
-  Spinner,
+  Spinner
 } from "@chakra-ui/react";
 import { ExternalLinkIcon, QuestionIcon } from "@chakra-ui/icons";
 
@@ -44,15 +44,18 @@ type TrackPageProps = {
 const TrackPage = ({ navigation }: TrackPageProps) => {
   const { trackPageview } = usePlausible();
   trackPageview({
-    url: "https://app.commitpool.com/track",
+    url: "https://app.commitpool.com/track"
   });
   const toast = useToast();
   const [waiting, setWaiting] = useState<boolean>(false);
   const { commitment, refreshCommitment } = useCommitPool();
   const { spcContract } = useContracts();
   const { athlete } = useStrava();
-  const { currentUser, latestTransaction, setLatestTransaction } =
-    useCurrentUser();
+  const {
+    currentUser,
+    latestTransaction,
+    setLatestTransaction
+  } = useCurrentUser();
 
   const methodCall: TransactionTypes = "requestActivityDistance";
 
@@ -77,6 +80,8 @@ const TrackPage = ({ navigation }: TrackPageProps) => {
   // When the commitment is complete or the deadline has passed, we offer the option to 'Settle commitment'
   // using the button in the footer
   const getCommitmentProgress = async () => {
+    // Fetch Strava api for epoch
+    // If distance
     if (
       spcContract &&
       currentUser?.attributes?.["custom:account_address"] &&
@@ -93,7 +98,7 @@ const TrackPage = ({ navigation }: TrackPageProps) => {
           console.log("requestActivityDistanceTX receipt: ", tx);
           setLatestTransaction({
             methodCall,
-            tx,
+            tx
           });
         });
     }
@@ -123,7 +128,7 @@ const TrackPage = ({ navigation }: TrackPageProps) => {
                 status: "warning",
                 duration: 5000,
                 isClosable: true,
-                position: "top",
+                position: "top"
               });
               refreshCommitment();
               setWaiting(false);
@@ -152,7 +157,7 @@ const TrackPage = ({ navigation }: TrackPageProps) => {
             status: "error",
             duration: 5000,
             isClosable: false,
-            position: "top",
+            position: "top"
           });
         } else if (receipt && receipt.status === 1) {
           setWaiting(false);
@@ -162,7 +167,7 @@ const TrackPage = ({ navigation }: TrackPageProps) => {
             status: "success",
             duration: 5000,
             isClosable: true,
-            position: "top",
+            position: "top"
           });
         }
       } catch {
@@ -237,7 +242,9 @@ const TrackPage = ({ navigation }: TrackPageProps) => {
                   </CircularProgressLabel>
                 </CircularProgress>
               </VStack>
-            ) : undefined}
+            ) : (
+              undefined
+            )}
           </VStack>
         )}
       </Center>
